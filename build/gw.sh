@@ -1,5 +1,6 @@
 #!/bin/sh
 cat "Forwarding" > logs.txt
+trap : TERM INT
 
 # Get interface
 INT=$(ip -j link show type wireguard | jq -r '.[0].ifname')
@@ -17,3 +18,5 @@ ip route add $END/32 dev eth0
 # Setup NAT
 iptables -A FORWARD -i net1 -o $INT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -t nat -A POSTROUTING -o $INT -j MASQUERADE
+
+sleep infinity & wait
