@@ -4,7 +4,7 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN build -o wg-cni ./cmd/wg-cni
+RUN go build -o wg-cni ./cmd/wg-cni
 
 FROM alpine:3.11
 
