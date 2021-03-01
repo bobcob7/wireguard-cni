@@ -1,10 +1,13 @@
 #!/bin/sh
+cat "Forwarding" > logs.txt
 
 # Get interface
 INT=$(ip -j link show type wireguard | jq -r '.[0].ifname')
+echo "WG Interface $INT"
 
 # Get WG Endpoint
 END=$(wg show $INT endpoints | awk -F '[\t /:]' '{print $3}')
+echo "Endpoint $END"
 
 # Route all traffic over to the tunnel
 ip route add 0.0.0.0/1 dev $INT
